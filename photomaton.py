@@ -4,11 +4,13 @@ from kivy.app import App
 from kivy.uix.image import Image as kivyImage
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
-
+from imageEditor import ImageEditor
 
 faking_it = True
 if not faking_it:
     from photoTaker import PhotoTaker
+
+image_editor = ImageEditor()
 
 
 def take1(instance):
@@ -19,7 +21,7 @@ def take1(instance):
         photo = PhotoTaker()
         image = photo.take_photo()
 
-    return image
+    image_editor.apply_big_picture_mask(image)
 
 
 def take4(instance):
@@ -28,13 +30,14 @@ def take4(instance):
     #photo.take_4_photo()
 
 
-class PhotoApp(App):
+class SoPhotoApp(App):
     def build(self):
         layout = BoxLayout(orientation='vertical')
 
         layout_top = BoxLayout(orientation='horizontal')
 
-        for picture_path in glob.iglob('fine_pictures/*.jpg'):
+        #TODO reload this
+        for picture_path in glob.iglob('fine_pictures/*/*.jpg'):
             im = kivyImage(source=picture_path)
             layout_top.add_widget(im)
 
@@ -53,6 +56,4 @@ class PhotoApp(App):
 
 
 if __name__ == '__main__':
-    PhotoApp().run()
-    
-                              
+    SoPhotoApp().run()
