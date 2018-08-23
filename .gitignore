@@ -167,3 +167,6 @@ fabric.properties
 
 geo/conf/archive_haar/
 *.zip
+
+*_pictures/*.jpg
+*_pictures/*/
