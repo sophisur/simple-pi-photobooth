@@ -1,7 +1,4 @@
-from time import sleep
 from PIL import Image as pilImage
-#from photoTaker import PhotoTaker
-import os
 import glob
 from kivy.app import App
 from kivy.uix.image import Image as kivyImage
@@ -10,6 +7,8 @@ from kivy.uix.boxlayout import BoxLayout
 
 
 faking_it = True
+if not faking_it:
+    from photoTaker import PhotoTaker
 
 
 def take1(instance):
