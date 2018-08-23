@@ -1,19 +1,32 @@
 from time import sleep
-from PIL import Image
+from PIL import Image as pilImage
 #from photoTaker import PhotoTaker
 import os
+import glob
 from kivy.app import App
-from kivy.uix.widget import Widget
+from kivy.uix.image import Image as kivyImage
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 
 
+faking_it = True
+
+
 def take1(instance):
     print('Take 1 picture')
+    if faking_it:
+        image = pilImage.open('raw_pictures/default_picture.jpg')
+    else:
+        photo = PhotoTaker()
+        image = photo.take_photo()
+
+    return image
 
 
 def take4(instance):
     print('take 4 pictures')
+    #photo = PhotoTaker()
+    #photo.take_4_photo()
 
 
 class PhotoApp(App):
@@ -21,6 +34,10 @@ class PhotoApp(App):
         layout = BoxLayout(orientation='vertical')
 
         layout_top = BoxLayout(orientation='horizontal')
+
+        for picture_path in glob.iglob('fine_pictures/*.jpg'):
+            im = kivyImage(source=picture_path)
+            layout_top.add_widget(im)
 
         layout_bottom = BoxLayout(orientation='horizontal')
         uphoto = Button(text='Prendre une grande photo')
