@@ -1,75 +1,42 @@
-from picamera import PiCamera
 from time import sleep
-import toga
-from io import BytesIO
 from PIL import Image
-
-
+#from photoTaker import PhotoTaker
 import os
+from kivy.app import App
+from kivy.uix.widget import Widget
+from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
 
 
-camera = PiCamera()
-camera.rotation = 180
-    
-def start_preview():
-    #window=(1,1,400,400)
-    camera.start_preview(alpha=200, fullscreen=True, rotation=180)
-
-def stop_preview():
-    camera.stop_preview()
-    
-def take_photo(widget):
-    start_preview()
-    image = take_one_photo()
+def take1(instance):
+    print('Take 1 picture')
 
 
-    stop_preview()
-
-def take_one_photo():
-    stream = BytesIO()
-
-    sleep(2)
-    camera.capture(stream, format='jpeg')
-    stream.seek(0)
-    image = Image.open(stream)
-    return image
-
-    
-    
-def take_4_photo(widget):
-    start_preview()
-    image1 = take_one_photo()
-    image2 = take_one_photo()
-    image3 = take_one_photo()
-    image4 = take_one_photo()
-
-    stop_preview()
+def take4(instance):
+    print('take 4 pictures')
 
 
-def build(app):
+class PhotoApp(App):
+    def build(self):
+        layout = BoxLayout(orientation='vertical')
 
-    
-    path = os.path.dirname(os.path.abspath(__file__))
-    toga.types
+        layout_top = BoxLayout(orientation='horizontal')
 
-    #default_image = toga.Image('default_picture.jpg', factory=None)
-    top_container = toga.Box()
+        layout_bottom = BoxLayout(orientation='horizontal')
+        uphoto = Button(text='Prendre une grande photo')
+        uphoto.bind(on_press=take1)
+        qphoto = Button(text='Prendre 4 photos')
+        qphoto.bind(on_press=take4)
+        layout_bottom.add_widget(uphoto)
+        layout_bottom.add_widget(qphoto)
 
-    bottom_content = toga.Box()
+        layout.add_widget(layout_top)
+        layout.add_widget(layout_bottom)
 
-    bottom_content.add(toga.Button('take photo', on_press= take_photo))
-    bottom_content.add(toga.Button('take 4 photo', on_press= take_4_photo))
+        return layout
 
-    split = toga.SplitContainer(direction=toga.SplitContainer.HORIZONTAL)
-    split.content = [top_container, bottom_content]
-
-    return split
-
-def main():
-    return toga.App('Photomaton', 'pouet', startup=build)
 
 if __name__ == '__main__':
-    main().main_loop()
+    PhotoApp().run()
     
                               
-    
