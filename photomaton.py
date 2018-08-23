@@ -12,7 +12,8 @@ camera = PiCamera()
 camera.rotation = 180
     
 def start_preview():
-    camera.start_preview(alpha=200, fullscreen=False, window=(1,1,400,400))
+    #window=(1,1,400,400)
+    camera.start_preview(alpha=200, fullscreen=True, rotation=180)
 
 def stop_preview():
     camera.stop_preview()
@@ -51,8 +52,8 @@ def build(app):
     path = os.path.dirname(os.path.abspath(__file__))
     toga.types
 
-    default_image = toga.Image('default_picture.jpg', factory=None)
-    top_container = toga.ImageView(id='view1', image=default_image)
+    #default_image = toga.Image('default_picture.jpg', factory=None)
+    top_container = toga.Box()
 
     bottom_content = toga.Box()
 
