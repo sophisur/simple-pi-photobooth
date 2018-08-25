@@ -7,9 +7,10 @@ from kivy.uix.boxlayout import BoxLayout
 from imageEditor import ImageEditor
 #from kivy.uix.scatter import Scatter
 
-faking_it = True
+faking_it = False
 if not faking_it:
     from photoTaker import PhotoTaker
+    photo = PhotoTaker()
 
 image_editor = ImageEditor()
 
@@ -57,7 +58,6 @@ class SoPhotoApp(App):
         if faking_it:
             image = pilImage.open('raw_pictures/default_picture.jpg')
         else:
-            photo = PhotoTaker()
             image = photo.take_photo()
 
         picture_path = image_editor.apply_big_picture_mask(image)
