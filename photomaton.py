@@ -5,6 +5,7 @@ from kivy.uix.image import Image as kivyImage
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from imageEditor import ImageEditor
+#from kivy.uix.scatter import Scatter
 
 faking_it = True
 if not faking_it:
@@ -13,46 +14,60 @@ if not faking_it:
 image_editor = ImageEditor()
 
 
-def take1(instance):
-    print('Take 1 picture')
-    if faking_it:
-        image = pilImage.open('raw_pictures/default_picture.jpg')
-    else:
-        photo = PhotoTaker()
-        image = photo.take_photo()
 
-    image_editor.apply_big_picture_mask(image)
-
-
-def take4(instance):
-    print('take 4 pictures')
-    #photo = PhotoTaker()
-    #photo.take_4_photo()
 
 
 class SoPhotoApp(App):
     def build(self):
-        layout = BoxLayout(orientation='vertical')
+        self.layout = BoxLayout(orientation='vertical')
 
-        layout_top = BoxLayout(orientation='horizontal')
-
-        #TODO reload this
-        for picture_path in glob.iglob('fine_pictures/*/*.jpg'):
-            im = kivyImage(source=picture_path)
-            layout_top.add_widget(im)
-
-        layout_bottom = BoxLayout(orientation='horizontal')
+        layout_buttons = BoxLayout(orientation='horizontal')
         uphoto = Button(text='Prendre une grande photo')
-        uphoto.bind(on_press=take1)
+        uphoto.bind(on_press=self.take1)
         qphoto = Button(text='Prendre 4 photos')
-        qphoto.bind(on_press=take4)
-        layout_bottom.add_widget(uphoto)
-        layout_bottom.add_widget(qphoto)
+        qphoto.bind(on_press=self.take4)
+        layout_buttons.add_widget(uphoto)
+        layout_buttons.add_widget(qphoto)
 
-        layout.add_widget(layout_top)
-        layout.add_widget(layout_bottom)
+        self.last_photo = kivyImage(source='fine_pictures/last_photo.jpg')
+        layout_buttons.add_widget(self.last_photo)
 
-        return layout
+        self.layout.add_widget(layout_buttons)
+
+        self.layout_bottom = BoxLayout(orientation='horizontal')
+        self.layout.add_widget(self.layout_bottom)
+
+        self.load()
+
+        return self.layout
+
+    def reload(self):
+        self.last_photo.reload()
+
+    def load(self):
+        for picture_path in glob.iglob('fine_pictures/*/*.jpg'):
+            self.add_picture(picture_path)
+
+    def add_picture(self, picture_path):
+        im = kivyImage(source=picture_path)
+        self.layout_bottom.add_widget(im)
+
+    def take1(self, instance):
+        print('Take 1 picture')
+        if faking_it:
+            image = pilImage.open('raw_pictures/default_picture.jpg')
+        else:
+            photo = PhotoTaker()
+            image = photo.take_photo()
+
+        picture_path = image_editor.apply_big_picture_mask(image)
+        self.add_picture(picture_path)
+        self.reload()
+
+    def take4(self, instance):
+        print('take 4 pictures')
+        # photo = PhotoTaker()
+        # photo.take_4_photo()
 
 
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ class ImageEditor:
 
     def apply_big_picture_mask(self, image):
         image.paste(self.top_left, box=None)
-        self.save(image)
+        return self.save(image)
 
     def save(self, image):
         today = datetime.today().strftime('%Y_%m_%d')
@@ -18,6 +18,8 @@ class ImageEditor:
             os.makedirs(path)
         path_img = os.path.join(path, '%s.jpg' % now)
         image.save(path_img)
+        image.save('fine_pictures/last_photo.jpg')#constant override
+        return path_img
 
     def apply_4_pictures_mask(self, images):
         pass
