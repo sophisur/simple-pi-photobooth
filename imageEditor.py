@@ -2,12 +2,13 @@ from PIL import Image as pilImage
 from datetime import date, time, datetime
 import os
 
+
 class ImageEditor:
     def __init__(self):
         self.top_left = pilImage.open('mask_images/topleft.png')
 
     def apply_big_picture_mask(self, image):
-        image.paste(self.top_left, box=None)
+        image.paste(self.top_left, (0, 0), mask=self.top_left)
         return self.save(image)
 
     def save(self, image):
