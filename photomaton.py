@@ -4,6 +4,8 @@ from kivy.app import App
 from kivy.uix.image import Image as kivyImage
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
+from kivy.core.window import Window
+from kivy.config import Config
 from imageEditor import ImageEditor
 #from kivy.uix.scatter import Scatter
 
@@ -71,4 +73,8 @@ class SoPhotoApp(App):
 
 
 if __name__ == '__main__':
+    Config.set('graphics', 'fullscreen', 'True')
+    Config.set('graphics', 'window_state', 'maximized')
+    Config.write()
+    
     SoPhotoApp().run()
