@@ -8,6 +8,8 @@ class PhotoTaker:
     def __init__(self):
         self.camera = PiCamera()
         self.camera.rotation = 180
+        self.camera.resolution = (3280, 2464)
+        #self.camera.framerate = 15
 
     def start_preview(self):
         #window=(1,1,400,400)
