@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from PIL import Image as pilImage
 import glob
 from kivy.app import App
