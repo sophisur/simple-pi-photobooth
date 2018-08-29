@@ -4,12 +4,11 @@ from kivy.app import App
 from kivy.uix.image import Image as kivyImage
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
-from kivy.core.window import Window
+from kivy.uix.gridlayout import GridLayout
 from kivy.config import Config
 from imageEditor import ImageEditor
-#from kivy.uix.scatter import Scatter
 
-faking_it = False
+faking_it = True
 if not faking_it:
     from photoTaker import PhotoTaker
     photo = PhotoTaker()
@@ -17,11 +16,9 @@ if not faking_it:
 image_editor = ImageEditor()
 
 
-
-
-
 class SoPhotoApp(App):
     def build(self):
+        self.nb_pictures = 0
         self.layout = BoxLayout(orientation='vertical')
 
         layout_buttons = BoxLayout(orientation='horizontal')
@@ -37,7 +34,7 @@ class SoPhotoApp(App):
 
         self.layout.add_widget(layout_buttons)
 
-        self.layout_bottom = BoxLayout(orientation='horizontal')
+        self.layout_bottom = GridLayout(cols=10)
         self.layout.add_widget(self.layout_bottom)
 
         self.load()
@@ -53,6 +50,9 @@ class SoPhotoApp(App):
 
     def add_picture(self, picture_path):
         im = kivyImage(source=picture_path)
+        self.nb_pictures = self.nb_pictures + 1
+        if self.nb_pictures > 40:
+            self.layout_bottom.remove_widget(self.layout_bottom.children[len(self.layout_bottom.children)-1])
         self.layout_bottom.add_widget(im)
 
     def take1(self, instance):
