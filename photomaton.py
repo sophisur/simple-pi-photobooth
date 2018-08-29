@@ -8,7 +8,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.config import Config
 from imageEditor import ImageEditor
 
-faking_it = True
+faking_it = False
 if not faking_it:
     from photoTaker import PhotoTaker
     photo = PhotoTaker()
@@ -73,8 +73,4 @@ class SoPhotoApp(App):
 
 
 if __name__ == '__main__':
-    Config.set('graphics', 'fullscreen', 'True')
-    Config.set('graphics', 'window_state', 'maximized')
-    Config.write()
-    
     SoPhotoApp().run()
