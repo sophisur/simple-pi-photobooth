@@ -29,7 +29,7 @@ class SoPhotoApp(App):
         layout_buttons.add_widget(uphoto)
         layout_buttons.add_widget(qphoto)
 
-        self.last_photo = kivyImage(source='fine_pictures/last_photo.jpg')
+        self.last_photo = kivyImage(source='small_pictures/last_photo.jpg')
         layout_buttons.add_widget(self.last_photo)
 
         self.layout.add_widget(layout_buttons)
@@ -45,7 +45,7 @@ class SoPhotoApp(App):
         self.last_photo.reload()
 
     def load(self):
-        for picture_path in glob.iglob('fine_pictures/*/*.jpg'):
+        for picture_path in glob.iglob('small_pictures/*/*.jpg'):
             self.add_picture(picture_path)
 
     def add_picture(self, picture_path):
