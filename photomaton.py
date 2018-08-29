@@ -10,33 +10,42 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.config import Config
 from imageEditor import ImageEditor
 
-faking_it = False
+faking_it = True
 if not faking_it:
     from photoTaker import PhotoTaker
     photo = PhotoTaker()
 
 image_editor = ImageEditor()
 
+max_pictures_in_bottom_layout = 40
 
 class SoPhotoApp(App):
     def build(self):
         self.nb_pictures = 0
-        self.layout = BoxLayout(orientation='vertical')
+        self.layout = BoxLayout(orientation='vertical', spacing=10)
 
-        layout_buttons = BoxLayout(orientation='horizontal')
-        uphoto = Button(text='Prendre une grande photo')
-        uphoto.bind(on_press=self.take1)
-        qphoto = Button(text='Prendre 4 photos')
-        qphoto.bind(on_press=self.take4)
+        #Shortcut layout declaration
+        layout_buttons = BoxLayout(orientation='horizontal', size_hint=(.5, .2))
+        uphoto = Button(text = 'Prendre une grande photo')
+        qphoto = Button(text = 'Prendre 4 photos')
+        ##Shorcuts buttons clicked connections
+        uphoto.bind(on_press = self.take1)
+        qphoto.bind(on_press = self.take4)
+        ##Shortcuts insert inside layout
         layout_buttons.add_widget(uphoto)
         layout_buttons.add_widget(qphoto)
 
+        #Last photo layout declaration
         self.last_photo = kivyImage(source='fine_pictures/last_photo.jpg')
-        layout_buttons.add_widget(self.last_photo)
+        layout_last_photo = BoxLayout(orientation='horizontal')
+        layout_last_photo.add_widget(self.last_photo)
 
-        self.layout.add_widget(layout_buttons)
-
+        #Layout containing max_pictures_in_bottom_layout pictures
         self.layout_bottom = GridLayout(cols=10)
+
+        #Insert layouts in main app
+        self.layout.add_widget(layout_buttons)
+        self.layout.add_widget(layout_last_photo)
         self.layout.add_widget(self.layout_bottom)
 
         self.load()
@@ -53,7 +62,7 @@ class SoPhotoApp(App):
     def add_picture(self, picture_path):
         im = kivyImage(source=picture_path)
         self.nb_pictures = self.nb_pictures + 1
-        if self.nb_pictures > 40:
+        if self.nb_pictures > max_pictures_in_bottom_layout:
             self.layout_bottom.remove_widget(self.layout_bottom.children[len(self.layout_bottom.children)-1])
         self.layout_bottom.add_widget(im)
 
