@@ -17,7 +17,7 @@ if not faking_it:
 
 image_editor = ImageEditor()
 
-max_pictures_in_bottom_layout = 40
+max_pictures_in_bottom_layout = 20
 
 class SoPhotoApp(App):
     def build(self):
@@ -25,7 +25,7 @@ class SoPhotoApp(App):
         self.layout = BoxLayout(orientation='vertical', spacing=10)
 
         #Shortcut layout declaration
-        layout_buttons = BoxLayout(orientation='horizontal', size_hint=(.5, .2))
+        layout_buttons = BoxLayout(orientation='horizontal', size_hint=(1, .1))
         uphoto = Button(text = 'Prendre une grande photo')
         qphoto = Button(text = 'Prendre 4 photos')
         ##Shorcuts buttons clicked connections
@@ -36,12 +36,12 @@ class SoPhotoApp(App):
         layout_buttons.add_widget(qphoto)
 
         #Last photo layout declaration
+        layout_last_photo = BoxLayout(orientation='horizontal', size_hint=(1, .7))
         self.last_photo = kivyImage(source='fine_pictures/last_photo.jpg')
-        layout_last_photo = BoxLayout(orientation='horizontal')
         layout_last_photo.add_widget(self.last_photo)
 
         #Layout containing max_pictures_in_bottom_layout pictures
-        self.layout_bottom = GridLayout(cols=10)
+        self.layout_bottom = GridLayout(cols=10, size_hint=(1, .3))
 
         #Insert layouts in main app
         self.layout.add_widget(layout_buttons)
