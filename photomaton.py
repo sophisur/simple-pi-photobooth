@@ -26,7 +26,7 @@ class SoPhotoApp(App):
         self.layout = BoxLayout(orientation='vertical', spacing=10)
 
         #Shortcut layout declaration
-        layout_buttons = BoxLayout(orientation='horizontal', size_hint=(1, .1))
+        layout_buttons = BoxLayout(orientation='horizontal', size_hint=(1, .2))
         uphoto = Button(text = 'Prendre une grande photo')
         qphoto = Button(text = 'Prendre 4 photos')
         ##Shorcuts buttons clicked connections
@@ -45,9 +45,9 @@ class SoPhotoApp(App):
         self.layout_bottom = GridLayout(cols=max_pictures_in_bottom_layout/max_row_number_for_old_photos, size_hint=(1, .3))
 
         #Insert layouts in main app
-        self.layout.add_widget(layout_buttons)
         self.layout.add_widget(layout_last_photo)
         self.layout.add_widget(self.layout_bottom)
+        self.layout.add_widget(layout_buttons)
 
         self.load()
 
