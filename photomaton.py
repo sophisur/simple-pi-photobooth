@@ -37,12 +37,12 @@ class SoPhotoApp(App):
         layout_buttons.add_widget(qphoto)
 
         #Last photo layout declaration
-        layout_last_photo = BoxLayout(orientation='horizontal', size_hint=(1, .7))
+        layout_last_photo = BoxLayout(orientation='horizontal', size_hint=(1, .6))
         self.last_photo = kivyImage(source='fine_pictures/last_photo.jpg')
         layout_last_photo.add_widget(self.last_photo)
 
         #Layout containing max_pictures_in_bottom_layout pictures
-        self.layout_bottom = GridLayout(cols=max_pictures_in_bottom_layout/max_row_number_for_old_photos, size_hint=(1, .3))
+        self.layout_bottom = GridLayout(cols=max_pictures_in_bottom_layout/max_row_number_for_old_photos, size_hint=(1, .4))
 
         #Insert layouts in main app
         self.layout.add_widget(layout_last_photo)
