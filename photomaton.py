@@ -173,6 +173,7 @@ class SoPhotoApp(App):
         
         # Create Popup Progress
         popupProgress = PopupProgress(title='', separator_height=0)
+        self.start_preview()
         popupProgress.start_progress(3)
 
         # Connection dismiss signal on take_one_photo_action
@@ -193,12 +194,19 @@ class SoPhotoApp(App):
 
         # # Open Popup Progress
         # popupProgress.open()
-        
+
+    def start_preview(self):
+        if faking_it:
+            pass
+        else:
+            photo.start_preview()
+
     def take_one_photo_action(self, instance):
         if faking_it:
             image = pilImage.open('raw_pictures/default_picture.jpg')
         else:
             image = photo.take_photo()
+            photo.stop_preview()
             
         #Display last picture taken
         self.add_picture(image_editor.apply_big_picture_mask(image))
@@ -207,7 +215,7 @@ class SoPhotoApp(App):
     def take_four_photo_action(self, instance):
         print('take 4 pictures')
         # photo = PhotoTaker()
-        # photo.take_4_photo()
+        #         # photo.take_4_photo()
 
     def display_old_picture(self, instance):
         #Main popup layout
