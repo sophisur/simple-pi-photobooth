@@ -2,6 +2,7 @@
 
 from PIL import Image as pilImage
 import glob
+import os
 from kivy.app import App
 from kivy.uix.image import Image as kivyImage
 from kivy.uix.button import Button
@@ -147,7 +148,9 @@ class SoPhotoApp(App):
         self.last_photo.reload()
 
     def load(self):
-        for picture_path in glob.iglob('fine_pictures/*/*.jpg'):
+        pictures_files = glob.glob('fine_pictures/*/*.jpg')
+        pictures_files.sort(key=os.path.getmtime)
+        for picture_path in pictures_files:
             self.add_picture(picture_path)
 
     def add_picture(self, picture_path):
