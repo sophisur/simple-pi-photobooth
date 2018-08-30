@@ -17,38 +17,63 @@ if not faking_it:
 
 image_editor = ImageEditor()
 
-max_pictures_in_bottom_layout = 16
-max_row_number_for_old_photos = 2
+max_pictures_in_bottom_layout = 20
+max_row_number_for_old_photos = 4
 
 class SoPhotoApp(App):
     def build(self):
         self.nb_pictures = 0
-        self.layout = BoxLayout(orientation='vertical', spacing=10)
+        self.layout = BoxLayout(orientation='horizontal', spacing=20)
 
-        #Shortcut layout declaration
-        layout_buttons = BoxLayout(orientation='horizontal', size_hint=(1, .2))
-        uphoto = Button(text = 'Prendre une grande photo')
-        qphoto = Button(text = 'Prendre 4 photos')
-        ##Shorcuts buttons clicked connections
-        uphoto.bind(on_press = self.take1)
-        qphoto.bind(on_press = self.take4)
-        ##Shortcuts insert inside layout
-        layout_buttons.add_widget(uphoto)
-        layout_buttons.add_widget(qphoto)
+        ########################################
+        #LAYOUT PHOTOS
+        ########################################
+        #Main photos layout for pictures display
+        layout_photos = BoxLayout(orientation='vertical', size_hint_x=0.7, spacing=10)
 
         #Last photo layout declaration
-        layout_last_photo = BoxLayout(orientation='horizontal', size_hint=(1, .6))
+        layout_last_photo = BoxLayout(orientation='vertical')
         self.last_photo = kivyImage(source='fine_pictures/last_photo.jpg')
-        layout_last_photo.add_widget(self.last_photo)
 
         #Layout containing max_pictures_in_bottom_layout pictures
-        self.layout_bottom = GridLayout(cols=max_pictures_in_bottom_layout/max_row_number_for_old_photos, size_hint=(1, .4))
+        self.layout_bottom = GridLayout(cols=max_pictures_in_bottom_layout/max_row_number_for_old_photos)
 
-        #Insert layouts in main app
-        self.layout.add_widget(layout_last_photo)
-        self.layout.add_widget(self.layout_bottom)
+        #Adding sublayouts/wodgets in the layout_photos
+        layout_photos.add_widget(self.last_photo)
+        layout_photos.add_widget(self.layout_bottom)
+
+        #Adding photos layout in the main layout
+        self.layout.add_widget(layout_photos)
+
+        ########################################
+        #LAYOUT BUTTONS
+        ########################################
+        #Main button layout for pictures manipulations
+        layout_buttons = BoxLayout(orientation='vertical', spacing=10, size_hint_x=0.3)
+
+        #Shortcut layout declaration
+        one_photo_default_picture = kivyImage(source='raw_pictures/profil_picture_default.jpg')
+        one_photo_button = Button(text = 'Prendre une grande photo')
+        four_photo_default_picture = kivyImage(source='raw_pictures/profil_picture_default.jpg')
+        four_photo_button = Button(text = 'Prendre 4 photos')
+
+        #Adding widgets in the layout_photos
+        layout_buttons.add_widget(one_photo_default_picture)
+        layout_buttons.add_widget(one_photo_button)
+        layout_buttons.add_widget(four_photo_default_picture)
+        layout_buttons.add_widget(four_photo_button)
+        
+        #Adding photos layout in the main layout
         self.layout.add_widget(layout_buttons)
 
+        #Shorcuts buttons clicked connections
+        one_photo_button.bind(on_press = self.take1)
+        four_photo_button.bind(on_press = self.take4)
+
+        ########################################
+        #APP
+        ########################################
+        #Load application
         self.load()
 
         return self.layout
