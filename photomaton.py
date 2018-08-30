@@ -17,7 +17,8 @@ if not faking_it:
 
 image_editor = ImageEditor()
 
-max_pictures_in_bottom_layout = 20
+max_pictures_in_bottom_layout = 16
+max_row_number_for_old_photos = 2
 
 class SoPhotoApp(App):
     def build(self):
@@ -41,7 +42,7 @@ class SoPhotoApp(App):
         layout_last_photo.add_widget(self.last_photo)
 
         #Layout containing max_pictures_in_bottom_layout pictures
-        self.layout_bottom = GridLayout(cols=10, size_hint=(1, .3))
+        self.layout_bottom = GridLayout(cols=max_pictures_in_bottom_layout/max_row_number_for_old_photos, size_hint=(1, .3))
 
         #Insert layouts in main app
         self.layout.add_widget(layout_buttons)
