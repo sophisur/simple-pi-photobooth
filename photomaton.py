@@ -11,6 +11,7 @@ from kivy.uix.popup import Popup
 from kivy.config import Config
 from imageEditor import ImageEditor
 from imageButton import ImageButton
+from popupProgress import PopupProgress
 from shutil import copyfile
 
 faking_it = True
@@ -166,16 +167,41 @@ class SoPhotoApp(App):
 
     def take1(self, instance):
         print('Take 1 picture')
+        
+        # Create Popup Progress
+        popupProgress = PopupProgress(title='', separator_height=0)
+        popupProgress.start_progress(3)
+
+        # Connection dismiss signal on take_one_photo_action
+        popupProgress.bind(on_dismiss=self.take_one_photo_action)
+
+        # Open Popup Progress
+        popupProgress.open()
+
+    def take4(self, instance):
+        print('take 4 pictures')
+
+        # # Create Popup Progress
+        # popupProgress = PopupProgress(title='', separator_height=0)
+        # popupProgress.start_progress(3)
+
+        # # Connection dismiss signal on take_four_photo_action
+        # popupProgress.bind(on_dismiss=self.take_four_photo_action)
+
+        # # Open Popup Progress
+        # popupProgress.open()
+        
+    def take_one_photo_action(self, instance):
         if faking_it:
-            image = pilImage.open('raw_pictures/default_picture2.jpg')
+            image = pilImage.open('raw_pictures/default_picture.jpg')
         else:
             image = photo.take_photo()
-
+            
         #Display last picture taken
         self.add_picture(image_editor.apply_big_picture_mask(image))
         self.reload()
 
-    def take4(self, instance):
+    def take_four_photo_action(self, instance):
         print('take 4 pictures')
         # photo = PhotoTaker()
         # photo.take_4_photo()
