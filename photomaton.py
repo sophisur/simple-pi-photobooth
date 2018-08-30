@@ -46,14 +46,11 @@ class SoPhotoApp(App):
         layout_photos.add_widget(self.last_photo)
         layout_photos.add_widget(self.layout_bottom)
 
-        #Adding photos layout in the main layout
-        self.layout.add_widget(layout_photos)
-
         ########################################
         #LAYOUT BUTTONS
         ########################################
         #Main button layout for pictures manipulations
-        layout_buttons = BoxLayout(orientation='vertical', size_hint_x=0.3)
+        layout_buttons = BoxLayout(orientation='vertical', size_hint_x=.33)
 
         #Shortcut layout declaration
         one_photo_default_picture = kivyImage(source='raw_pictures/profil_picture_default.jpg')
@@ -66,13 +63,18 @@ class SoPhotoApp(App):
         layout_buttons.add_widget(one_photo_button)
         layout_buttons.add_widget(four_photo_default_picture)
         layout_buttons.add_widget(four_photo_button)
-        
-        #Adding photos layout in the main layout
-        self.layout.add_widget(layout_buttons)
 
         #Shorcuts buttons clicked connections
         one_photo_button.bind(on_press = self.take1)
         four_photo_button.bind(on_press = self.take4)
+
+        ########################################
+        #GENERAL
+        ########################################
+        #Adding photos layout in the main layout
+        self.layout.add_widget(layout_buttons)
+        #Adding photos layout in the main layout
+        self.layout.add_widget(layout_photos)
 
         # # PROPOSAL 2
         # self.layout = BoxLayout(orientation='vertical')
