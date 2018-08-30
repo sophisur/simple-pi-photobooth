@@ -55,9 +55,9 @@ class SoPhotoApp(App):
         layout_buttons = BoxLayout(orientation='vertical', size_hint_x=.33)
 
         #Shortcut layout declaration
-        one_photo_default_picture = kivyImage(source='raw_pictures/profil_picture_default.jpg')
+        one_photo_default_picture = kivyImage(source='small_pictures/default_1.jpg')
         one_photo_button = Button(text = 'Prendre 1 photo', size_hint=(1,.3))
-        four_photo_default_picture = kivyImage(source='raw_pictures/profil_picture_default.jpg')
+        four_photo_default_picture = kivyImage(source='small_pictures/default_2.jpg')
         four_photo_button = Button(text = 'Prendre 4 photos', size_hint=(1,.3))
 
         #Adding widgets in the layout_photos
