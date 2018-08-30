@@ -7,6 +7,7 @@ from kivy.uix.image import Image as kivyImage
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.popup import Popup
 from kivy.config import Config
 from imageEditor import ImageEditor
 from imageButton import ImageButton
@@ -119,10 +120,24 @@ class SoPhotoApp(App):
         # photo.take_4_photo()
 
     def display_old_picture(self, instance):
-        #Change main picture slot content
-        copyfile(instance.source, 'fine_pictures/last_photo.jpg')
-        #Display on main picture slot
-        self.reload()
+        #Main popup layout
+        layout_popup = BoxLayout(orientation='vertical', spacing=10)
+
+        #Create popup layout content
+        content = Button(text='Close', size_hint_y=0.2)
+
+        #Adding contents into popup layout
+        layout_popup.add_widget(ImageButton(source=instance.source))
+        layout_popup.add_widget(content)
+
+        #Create popup
+        popup = Popup(title='Picture', content=layout_popup)
+
+        #Bind the on_press event of the button to the dismiss function
+        content.bind(on_press=popup.dismiss)
+
+        #Open popup
+        popup.open()
 
 if __name__ == '__main__':
     SoPhotoApp().run()
