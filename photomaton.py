@@ -26,13 +26,13 @@ max_row_number_for_old_photos = 4
 class SoPhotoApp(App):
     def build(self):
         self.nb_pictures = 0
-        self.layout = BoxLayout(orientation='horizontal', spacing=20)
+        self.layout = BoxLayout(orientation='horizontal')
 
         ########################################
         #LAYOUT PHOTOS
         ########################################
         #Main photos layout for pictures display
-        layout_photos = BoxLayout(orientation='vertical', size_hint_x=0.7, spacing=10)
+        layout_photos = BoxLayout(orientation='vertical')
 
         #Last photo layout declaration
         layout_last_photo = BoxLayout(orientation='vertical')
@@ -52,13 +52,13 @@ class SoPhotoApp(App):
         #LAYOUT BUTTONS
         ########################################
         #Main button layout for pictures manipulations
-        layout_buttons = BoxLayout(orientation='vertical', spacing=10, size_hint_x=0.3)
+        layout_buttons = BoxLayout(orientation='vertical', size_hint_x=0.3)
 
         #Shortcut layout declaration
         one_photo_default_picture = kivyImage(source='raw_pictures/profil_picture_default.jpg')
-        one_photo_button = Button(text = 'Prendre une grande photo')
+        one_photo_button = Button(text = 'Prendre 1 photo', size_hint=(1,.3))
         four_photo_default_picture = kivyImage(source='raw_pictures/profil_picture_default.jpg')
-        four_photo_button = Button(text = 'Prendre 4 photos')
+        four_photo_button = Button(text = 'Prendre 4 photos', size_hint=(1,.3))
 
         #Adding widgets in the layout_photos
         layout_buttons.add_widget(one_photo_default_picture)
@@ -121,7 +121,7 @@ class SoPhotoApp(App):
 
     def display_old_picture(self, instance):
         #Main popup layout
-        layout_popup = BoxLayout(orientation='vertical', spacing=10)
+        layout_popup = BoxLayout(orientation='vertical', spacing=5)
 
         #Create popup layout content
         back_to_main_button = Button(text='<-', size_hint=(.1,.1))
