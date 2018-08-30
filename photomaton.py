@@ -124,17 +124,17 @@ class SoPhotoApp(App):
         layout_popup = BoxLayout(orientation='vertical', spacing=10)
 
         #Create popup layout content
-        content = Button(text='Close', size_hint_y=0.2)
+        back_to_main_button = Button(text='<-', size_hint=(.1,.1))
 
         #Adding contents into popup layout
+        layout_popup.add_widget(back_to_main_button)
         layout_popup.add_widget(ImageButton(source=instance.source))
-        layout_popup.add_widget(content)
 
         #Create popup
-        popup = Popup(title='Picture', content=layout_popup)
+        popup = Popup(title='', separator_height=0, content=layout_popup)
 
         #Bind the on_press event of the button to the dismiss function
-        content.bind(on_press=popup.dismiss)
+        back_to_main_button.bind(on_press=popup.dismiss)
 
         #Open popup
         popup.open()
