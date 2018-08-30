@@ -1,4 +1,4 @@
-#from picamera import PiCamera
+from picamera import PiCamera
 from time import sleep
 from io import BytesIO
 from PIL import Image
