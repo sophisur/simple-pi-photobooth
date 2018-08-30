@@ -9,6 +9,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.config import Config
 from imageEditor import ImageEditor
+from imageButton import ImageButton
+from shutil import copyfile
 
 faking_it = True
 if not faking_it:
@@ -86,21 +88,29 @@ class SoPhotoApp(App):
             self.add_picture(picture_path)
 
     def add_picture(self, picture_path):
-        im = kivyImage(source=picture_path)
+        #Create new picture button
+        im = ImageButton(source=picture_path)
+
+        #Old pictures layout management
         self.nb_pictures = self.nb_pictures + 1
         if self.nb_pictures > max_pictures_in_bottom_layout:
             self.layout_bottom.remove_widget(self.layout_bottom.children[len(self.layout_bottom.children)-1])
+
+        #Connecting on_press signal
+        im.bind(on_press = self.display_old_picture)
+
+        #Adding new widget in old pictures layout
         self.layout_bottom.add_widget(im)
 
     def take1(self, instance):
         print('Take 1 picture')
         if faking_it:
-            image = pilImage.open('raw_pictures/default_picture.jpg')
+            image = pilImage.open('raw_pictures/default_picture2.jpg')
         else:
             image = photo.take_photo()
 
-        picture_path = image_editor.apply_big_picture_mask(image)
-        self.add_picture(picture_path)
+        #Display last picture taken
+        self.add_picture(image_editor.apply_big_picture_mask(image))
         self.reload()
 
     def take4(self, instance):
@@ -108,6 +118,11 @@ class SoPhotoApp(App):
         # photo = PhotoTaker()
         # photo.take_4_photo()
 
+    def display_old_picture(self, instance):
+        #Change main picture slot content
+        copyfile(instance.source, 'fine_pictures/last_photo.jpg')
+        #Display on main picture slot
+        self.reload()
 
 if __name__ == '__main__':
     SoPhotoApp().run()
