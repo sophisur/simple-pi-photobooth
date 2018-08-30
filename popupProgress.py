@@ -36,7 +36,7 @@ class PopupProgress(Popup):
     		Clock.schedule_once(self.change_progress_text_value, 1)
     	else:
     		# Change current text
-    		self.label.text = 'PHOTO'
+    		self.label.text = 'SMILE'
     		
     		# Call dismiss_popup in 1 seconds
         	Clock.schedule_once(self.dismiss, 1)
