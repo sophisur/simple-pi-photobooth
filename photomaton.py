@@ -183,7 +183,7 @@ class SoPhotoApp(App):
         layout_popup = BoxLayout(orientation='vertical', spacing=5)
 
         #Create popup layout content
-        back_to_main_button = Button(text='<-', size_hint=(.1,.1))
+        back_to_main_button = Button(text='<-', size_hint=(.2,.2))
 
         #Adding contents into popup layout
         layout_popup.add_widget(back_to_main_button)
