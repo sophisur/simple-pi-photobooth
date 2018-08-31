@@ -31,18 +31,18 @@ class SoPhotoApp(App):
         self.nb_pictures = 0
 
         # PROPOSAL 1
-        self.layout = BoxLayout(orientation='horizontal')
+        self.layout = BoxLayout(orientation='horizontal', spacing=15)
         ########################################
         #LAYOUT PHOTOS
         ########################################
         #Main photos layout for pictures display
-        layout_photos = BoxLayout(orientation='vertical')
+        layout_photos = BoxLayout(orientation='vertical', spacing=5)
 
         #Last photo layout declaration
         self.last_photo = kivyImage(source='small_pictures/last_photo.jpg')
 
         #Layout containing max_pictures_in_bottom_layout pictures
-        self.layout_bottom = GridLayout(cols=int(max_pictures_in_bottom_layout/max_row_number_for_old_photos))
+        self.layout_bottom = GridLayout(cols=int(max_pictures_in_bottom_layout/max_row_number_for_old_photos), spacing=(5, 5))
 
         #Adding sublayouts/wodgets in the layout_photos
         layout_photos.add_widget(self.last_photo)
