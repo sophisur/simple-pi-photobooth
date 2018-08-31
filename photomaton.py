@@ -39,7 +39,9 @@ class SoPhotoApp(App):
         layout_photos = BoxLayout(orientation='vertical', spacing=5)
 
         #Last photo layout declaration
-        self.last_photo = kivyImage(source='small_pictures/last_photo.jpg')
+        self.last_photo = ImageButton(source='small_pictures/last_photo.jpg')
+        #Connecting on_press signal
+        self.last_photo.bind(on_press=self.display_picture_on_popup)
 
         #Layout containing max_pictures_in_bottom_layout pictures
         self.layout_bottom = GridLayout(cols=int(max_pictures_in_bottom_layout/max_row_number_for_old_photos), spacing=(5, 5))
@@ -105,7 +107,7 @@ class SoPhotoApp(App):
             self.layout_bottom.remove_widget(self.layout_bottom.children[len(self.layout_bottom.children)-1])
 
         #Connecting on_press signal
-        im.bind(on_press = self.display_old_picture)
+        im.bind(on_press = self.display_picture_on_popup)
 
         #Adding new widget in old pictures layout
         self.layout_bottom.add_widget(im)
@@ -159,7 +161,7 @@ class SoPhotoApp(App):
         # photo = PhotoTaker()
         #         # photo.take_4_photo()
 
-    def display_old_picture(self, instance):
+    def display_picture_on_popup(self, instance):
         #Main popup layout
         layout_popup = BoxLayout(orientation='vertical', spacing=5)
 
