@@ -57,9 +57,9 @@ class SoPhotoApp(App):
         layout_buttons=BoxLayout(orientation='vertical', size_hint_x=.33)
 
         # Shortcut layout declaration
-        one_photo_default_picture=kivyImage(source='small_pictures/default_1.jpg')
+        one_photo_default_picture=ImageButton(source='small_pictures/default_1.jpg')
         one_photo_button=Button(text='Prendre 1 photo', size_hint=(1,.3))
-        four_photo_default_picture=kivyImage(source='small_pictures/default_2.jpg')
+        four_photo_default_picture=ImageButton(source='small_pictures/default_2.jpg')
         four_photo_button=Button(text='Prendre 4 photos', size_hint=(1,.3))
 
         # Adding widgets in the layout_photos
@@ -69,7 +69,9 @@ class SoPhotoApp(App):
         layout_buttons.add_widget(four_photo_button)
 
         # Shorcuts buttons clicked connections
+        one_photo_default_picture.bind(on_press=self.take1)
         one_photo_button.bind(on_press=self.take1)
+        four_photo_default_picture.bind(on_press=self.take4)
         four_photo_button.bind(on_press=self.take4)
 
         ########################################
