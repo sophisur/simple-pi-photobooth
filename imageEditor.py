@@ -20,16 +20,15 @@ class ImageEditor:
         return path_maked
 
     def apply_big_picture_mask(self, image):
-        self.save(image, self.raw_path)
+        now = datetime.now().strftime('%H_%M_%S_%f')
+        self.save(image, self.raw_path, now)
         image.paste(self.top_left, (0, 0), mask=self.top_left)
         copy = image.rotate(180)
-        self.save(copy, self.fine_path)
+        self.save(copy, self.fine_path, now)
         copy.thumbnail((640, 480))
-        return self.save(copy, self.small_path)
+        return self.save(copy, self.small_path, now)
 
-    def save(self, image, path_folder):
-        now = datetime.now().strftime('%H_%M_%S_%f')
-        
+    def save(self, image, path_folder, now):
         path_img = os.path.join(path_folder, '%s.jpg' % now)
         image.save(path_img)
         if path_folder == self.small_path:
@@ -37,4 +36,30 @@ class ImageEditor:
         return path_img
 
     def apply_4_pictures_mask(self, images):
-        pass
+        now = datetime.now().strftime('%H_%M_%S_%f')
+        print(len(images))
+        or_width, or_height = images[0].size
+        width = int(or_width * 2.2)
+        height = int(or_height * 2.2)
+        margin_w = int((or_width * 0.2)/3)
+        margin_h = int((or_height * 0.2)/3)
+
+        tuples = [
+            (margin_w, margin_h),
+            (int(width/2)+margin_w, margin_h),
+            (margin_w, int(height/2)+margin_h),
+            (int(width/2)+margin_w, int(height/2+margin_h))
+        ]
+
+        super_image = pilImage.new('RGB', (width, height))
+
+        for i in range(0, 4):
+            image = images[i]
+            self.save(image, self.raw_path, now + '_' + str(i))
+            copy = image.rotate(180)
+            super_image.paste(copy, tuples[i])
+
+        super_image.paste(self.top_left, (0, 0), mask=self.top_left)
+        self.save(super_image, self.fine_path, now)
+        super_image.thumbnail((640, 480))
+        return self.save(super_image, self.small_path, now)

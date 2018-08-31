@@ -9,11 +9,9 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
-from kivy.config import Config
 from imageEditor import ImageEditor
 from imageButton import ImageButton
-from popupProgress import PopupProgress
-from shutil import copyfile
+from popupProgress import PopupProgress, PopupProgressFour
 
 faking_it = True
 if not faking_it:
@@ -172,30 +170,29 @@ class SoPhotoApp(App):
         print('Take 1 picture')
         
         # Create Popup Progress
-        popupProgress = PopupProgress(title='', separator_height=0)
-        self.start_preview()
-        popupProgress.start_progress(3)
+        popup_progress = PopupProgress(title='', separator_height=0)
+        popup_progress.bind(on_open=self.start_preview)
+
+        popup_progress.start_progress(3)
 
         # Connection dismiss signal on take_one_photo_action
-        popupProgress.bind(on_dismiss=self.take_one_photo_action)
+        popup_progress.bind(on_dismiss=self.take_one_photo_action)
 
         # Open Popup Progress
-        popupProgress.open()
+        popup_progress.open()
 
     def take4(self, instance):
         print('take 4 pictures')
 
-        # # Create Popup Progress
-        # popupProgress = PopupProgress(title='', separator_height=0)
-        # popupProgress.start_progress(3)
+        self.images = []
+        popup_progress = PopupProgressFour(title='', separator_height=0, photomaton=self)
+        popup_progress.bind(on_open=self.start_preview)
+        popup_progress.bind(on_dismiss=self.four_photo_assembly)
 
-        # # Connection dismiss signal on take_four_photo_action
-        # popupProgress.bind(on_dismiss=self.take_four_photo_action)
+        popup_progress.start_progress(15)
+        popup_progress.open()
 
-        # # Open Popup Progress
-        # popupProgress.open()
-
-    def start_preview(self):
+    def start_preview(self, instance):
         if faking_it:
             pass
         else:
@@ -212,10 +209,22 @@ class SoPhotoApp(App):
         self.add_picture(image_editor.apply_big_picture_mask(image))
         self.reload()
 
-    def take_four_photo_action(self, instance):
-        print('take 4 pictures')
-        # photo = PhotoTaker()
-        #         # photo.take_4_photo()
+    def take_one_of_four_photo_action(self):
+        if faking_it:
+            image = pilImage.open('raw_pictures/default_picture.jpg')
+        else:
+            image = photo.take_photo()
+        self.images.append(image)
+
+    def four_photo_assembly(self, instance):
+        if faking_it:
+            pass
+        else:
+            photo.stop_preview()
+
+        self.add_picture(image_editor.apply_4_pictures_mask(self.images))
+        self.reload()
+
 
     def display_old_picture(self, instance):
         #Main popup layout
