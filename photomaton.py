@@ -15,36 +15,36 @@ from imageButton import ImageButton
 from popupProgress import PopupProgress
 from shutil import copyfile
 
-faking_it = True
+faking_it=True
 if not faking_it:
     from photoTaker import PhotoTaker
-    photo = PhotoTaker()
+    photo=PhotoTaker()
 
-image_editor = ImageEditor()
+image_editor=ImageEditor()
 
-max_pictures_in_bottom_layout = 20
-max_row_number_for_old_photos = 4
+max_pictures_in_bottom_layout=20
+max_row_number_for_old_photos=4
 
 
 class SoPhotoApp(App):
     def build(self):
-        self.nb_pictures = 0
+        self.nb_pictures=0
 
         # PROPOSAL 1
-        self.layout = BoxLayout(orientation='horizontal', spacing=15)
+        self.layout=BoxLayout(orientation='horizontal', spacing=15)
         ########################################
         #LAYOUT PHOTOS
         ########################################
         #Main photos layout for pictures display
-        layout_photos = BoxLayout(orientation='vertical', spacing=5)
+        layout_photos=BoxLayout(orientation='vertical', spacing=5)
 
         #Last photo layout declaration
-        self.last_photo = ImageButton(source='small_pictures/last_photo.jpg')
+        self.last_photo=ImageButton(source='small_pictures/last_photo.jpg')
         #Connecting on_press signal
         self.last_photo.bind(on_press=self.display_picture_on_popup)
 
         #Layout containing max_pictures_in_bottom_layout pictures
-        self.layout_bottom = GridLayout(cols=int(max_pictures_in_bottom_layout/max_row_number_for_old_photos), spacing=(5, 5))
+        self.layout_bottom=GridLayout(cols=int(max_pictures_in_bottom_layout/max_row_number_for_old_photos), spacing=(5, 5))
 
         #Adding sublayouts/wodgets in the layout_photos
         layout_photos.add_widget(self.last_photo)
@@ -54,13 +54,13 @@ class SoPhotoApp(App):
         #LAYOUT BUTTONS
         ########################################
         #Main button layout for pictures manipulations
-        layout_buttons = BoxLayout(orientation='vertical', size_hint_x=.33)
+        layout_buttons=BoxLayout(orientation='vertical', size_hint_x=.33)
 
         #Shortcut layout declaration
-        one_photo_default_picture = kivyImage(source='small_pictures/default_1.jpg')
-        one_photo_button = Button(text = 'Prendre 1 photo', size_hint=(1,.3))
-        four_photo_default_picture = kivyImage(source='small_pictures/default_2.jpg')
-        four_photo_button = Button(text = 'Prendre 4 photos', size_hint=(1,.3))
+        one_photo_default_picture=kivyImage(source='small_pictures/default_1.jpg')
+        one_photo_button=Button(text='Prendre 1 photo', size_hint=(1,.3))
+        four_photo_default_picture=kivyImage(source='small_pictures/default_2.jpg')
+        four_photo_button=Button(text='Prendre 4 photos', size_hint=(1,.3))
 
         #Adding widgets in the layout_photos
         layout_buttons.add_widget(one_photo_default_picture)
@@ -69,8 +69,8 @@ class SoPhotoApp(App):
         layout_buttons.add_widget(four_photo_button)
 
         #Shorcuts buttons clicked connections
-        one_photo_button.bind(on_press = self.take1)
-        four_photo_button.bind(on_press = self.take4)
+        one_photo_button.bind(on_press=self.take1)
+        four_photo_button.bind(on_press=self.take4)
 
         ########################################
         #GENERAL
@@ -92,22 +92,22 @@ class SoPhotoApp(App):
         self.last_photo.reload()
 
     def load(self):
-        pictures_files = glob.glob('small_pictures/*/*.jpg')
+        pictures_files=glob.glob('small_pictures/*/*.jpg')
         pictures_files.sort(key=os.path.getmtime)
         for picture_path in pictures_files:
             self.add_picture(picture_path)
 
     def add_picture(self, picture_path):
         #Create new picture button
-        im = ImageButton(source=picture_path)
+        im=ImageButton(source=picture_path)
 
         #Old pictures layout management
-        self.nb_pictures = self.nb_pictures + 1
+        self.nb_pictures=self.nb_pictures + 1
         if self.nb_pictures > max_pictures_in_bottom_layout:
             self.layout_bottom.remove_widget(self.layout_bottom.children[len(self.layout_bottom.children)-1])
 
         #Connecting on_press signal
-        im.bind(on_press = self.display_picture_on_popup)
+        im.bind(on_press=self.display_picture_on_popup)
 
         #Adding new widget in old pictures layout
         self.layout_bottom.add_widget(im)
@@ -116,7 +116,7 @@ class SoPhotoApp(App):
         print('Take 1 picture')
         
         # Create Popup Progress
-        popupProgress = PopupProgress(title='', separator_height=0)
+        popupProgress=PopupProgress(title='', separator_height=0)
         self.start_preview()
         popupProgress.start_progress(3)
 
@@ -130,7 +130,7 @@ class SoPhotoApp(App):
         print('take 4 pictures')
 
         # # Create Popup Progress
-        # popupProgress = PopupProgress(title='', separator_height=0)
+        # popupProgress=PopupProgress(title='', separator_height=0)
         # popupProgress.start_progress(3)
 
         # # Connection dismiss signal on take_four_photo_action
@@ -147,9 +147,9 @@ class SoPhotoApp(App):
 
     def take_one_photo_action(self, instance):
         if faking_it:
-            image = pilImage.open('raw_pictures/default_picture.jpg')
+            image=pilImage.open('raw_pictures/default_picture.jpg')
         else:
-            image = photo.take_photo()
+            image=photo.take_photo()
             photo.stop_preview()
             
         #Display last picture taken
@@ -158,22 +158,22 @@ class SoPhotoApp(App):
 
     def take_four_photo_action(self, instance):
         print('take 4 pictures')
-        # photo = PhotoTaker()
+        # photo=PhotoTaker()
         #         # photo.take_4_photo()
 
     def display_picture_on_popup(self, instance):
         #Main popup layout
-        layout_popup = BoxLayout(orientation='vertical', spacing=5)
+        layout_popup=BoxLayout(orientation='vertical', spacing=5)
 
         #Create popup layout content
-        back_to_main_button = Button(text='<-', size_hint=(.2,.2))
+        back_to_main_button=Button(text='<-', size_hint=(.2,.2))
 
         #Adding contents into popup layout
         layout_popup.add_widget(back_to_main_button)
         layout_popup.add_widget(ImageButton(source=instance.source))
 
         #Create popup
-        popup = Popup(title='', separator_height=0, content=layout_popup)
+        popup=Popup(title='', separator_height=0, content=layout_popup)
 
         #Bind the on_press event of the button to the dismiss function
         back_to_main_button.bind(on_press=popup.dismiss)
