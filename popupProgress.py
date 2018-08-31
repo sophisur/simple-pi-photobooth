@@ -1,8 +1,6 @@
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.clock import Clock
-from kivy.uix.boxlayout import BoxLayout
-import time
 
 
 class PopupProgress(Popup):
@@ -14,6 +12,7 @@ class PopupProgress(Popup):
         self.background_color = [255, 0, 255, 0]
         self.label.font_size = '200dp'
         self.content = self.label
+        self.count = 4
 
     def start_progress(self, count):
         # Seconds before Dismiss
