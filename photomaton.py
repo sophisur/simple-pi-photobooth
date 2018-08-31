@@ -78,64 +78,6 @@ class SoPhotoApp(App):
         #Adding photos layout in the main layout
         self.layout.add_widget(layout_photos)
 
-        # # PROPOSAL 2
-        # self.layout = BoxLayout(orientation='vertical')
-        # ########################################
-        # #LAYOUT PHOTOS
-        # ########################################
-        # #Main photos layout for pictures display
-        # layout_photos = BoxLayout(orientation='horizontal')
-
-        # #Last photo layout declaration
-        # layout_last_photo = BoxLayout(orientation='vertical')
-        # self.last_photo = kivyImage(source='fine_pictures/last_photo.jpg')
-
-        # #Layout containing max_pictures_in_bottom_layout pictures
-        # self.layout_bottom = GridLayout(cols=max_pictures_in_bottom_layout/max_row_number_for_old_photos)
-
-        # #Adding sublayouts/wodgets in the layout_photos
-        # layout_photos.add_widget(self.last_photo)
-        # layout_photos.add_widget(self.layout_bottom)
-
-        # ########################################
-        # #LAYOUT BUTTONS
-        # ########################################
-        # #Main button layout for pictures manipulations
-        # layout_buttons = BoxLayout(orientation='horizontal', size_hint_y=0.3)
-
-        # #Layout for taken one photo
-        # layout_one_photo_button = BoxLayout(orientation='vertical')
-        # #Layout for taken four photos
-        # layout_four_photo_button = BoxLayout(orientation='vertical')
-
-        # #Shortcut layout declaration
-        # one_photo_default_picture = kivyImage(source='raw_pictures/profil_picture_default.jpg')
-        # one_photo_button = Button(text = 'Prendre 1 photo', size_hint=(1,.3))
-        # four_photo_default_picture = kivyImage(source='raw_pictures/profil_picture_default.jpg')
-        # four_photo_button = Button(text = 'Prendre 4 photos', size_hint=(1,.3))
-
-        # #Adding widgets in the layout_photos
-        # layout_one_photo_button.add_widget(one_photo_default_picture)
-        # layout_one_photo_button.add_widget(one_photo_button)
-        # layout_four_photo_button.add_widget(four_photo_default_picture)
-        # layout_four_photo_button.add_widget(four_photo_button)
-        
-        # #Shorcuts buttons clicked connections
-        # one_photo_button.bind(on_press = self.take1)
-        # four_photo_button.bind(on_press = self.take4)
-
-        # #Adding sublayouts into buttons layout
-        # layout_buttons.add_widget(layout_one_photo_button)
-        # layout_buttons.add_widget(layout_four_photo_button)
-
-        # ########################################
-        # #GENERAL
-        # ########################################
-        # #Adding photos layout in the main layout
-        # self.layout.add_widget(layout_buttons)
-        # #Adding photos layout in the main layout
-        # self.layout.add_widget(layout_photos)
-
         ########################################
         #APP
         ########################################
