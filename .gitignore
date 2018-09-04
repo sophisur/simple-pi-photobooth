@@ -170,3 +170,5 @@ geo/conf/archive_haar/
 
 *_pictures/*.jpg
 *_pictures/*/
+
+backupSD/

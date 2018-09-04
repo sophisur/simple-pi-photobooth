@@ -5,13 +5,24 @@ import os
 
 class ImageEditor:
     def __init__(self):
-        self.top_left = pilImage.open('mask_images/topleft.png')
+        self.top_large = pilImage.open('mask_images/Ornements-09.png')
+        self.bottom_large = pilImage.open('mask_images/Ornements-10.png')
+        self.top_medium = pilImage.open('mask_images/Ornements-07.png')
+        self.bottom_medium = pilImage.open('mask_images/Ornements-08.png')
+
+        self.top_large = self.resize(self.top_large)
+        self.bottom_large = self.resize(self.bottom_large)
+
 
         today = datetime.today().strftime('%Y_%m_%d')
 
         self.raw_path = self.make_path('raw_pictures', today)
         self.fine_path = self.make_path('fine_pictures', today)
         self.small_path = self.make_path('small_pictures', today)
+
+    def resize(self, image):
+        w, h = image.size
+        return image.resize((w*3, h*3))
 
     def make_path(self, folder_name, today):
         path_maked = os.path.join(folder_name, today)
@@ -22,11 +33,25 @@ class ImageEditor:
     def apply_big_picture_mask(self, image):
         now = datetime.now().strftime('%H_%M_%S_%f')
         self.save(image, self.raw_path, now)
-        image.paste(self.top_left, (0, 0), mask=self.top_left)
         copy = image.rotate(180)
-        self.save(copy, self.fine_path, now)
-        copy.thumbnail((640, 480))
-        return self.save(copy, self.small_path, now)
+        or_width, or_height = copy.size
+        top_width, top_h = self.top_large.size
+        bottom_width, bottom_h = self.bottom_large.size
+        width = or_width + top_h*2
+        height = or_height + top_h + bottom_h
+
+        super_image = pilImage.new('RGB', (width, height))
+        super_image.paste(copy, (top_h, top_h))
+
+        banner_w = int(width / 2 - top_width / 2)
+        super_image.paste(self.top_large, (banner_w, 0), mask=self.top_large)
+
+        banner_w = int(width / 2 - bottom_width / 2)
+        super_image.paste(self.bottom_large, (banner_w, height - bottom_h), mask=self.bottom_large)
+
+        self.save(super_image, self.fine_path, now)
+        super_image.thumbnail((640, 480))
+        return self.save(super_image, self.small_path, now)
 
     def save(self, image, path_folder, now):
         path_img = os.path.join(path_folder, '%s.jpg' % now)
@@ -59,7 +84,7 @@ class ImageEditor:
             copy = image.rotate(180)
             super_image.paste(copy, tuples[i])
 
-        super_image.paste(self.top_left, (0, 0), mask=self.top_left)
+        super_image.paste(self.top_large, (0, 0), mask=self.top_large)
         self.save(super_image, self.fine_path, now)
         super_image.thumbnail((640, 480))
         return self.save(super_image, self.small_path, now)
