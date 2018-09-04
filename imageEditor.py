@@ -34,13 +34,14 @@ class ImageEditor:
         now = datetime.now().strftime('%H_%M_%S_%f')
         self.save(image, self.raw_path, now)
         copy = image.rotate(180)
+
         or_width, or_height = copy.size
         top_width, top_h = self.top_large.size
         bottom_width, bottom_h = self.bottom_large.size
         width = or_width + top_h*2
         height = or_height + top_h + bottom_h
 
-        super_image = pilImage.new('RGB', (width, height))
+        super_image = pilImage.new('RGB', (width, height), color='white')
         super_image.paste(copy, (top_h, top_h))
 
         banner_w = int(width / 2 - top_width / 2)
