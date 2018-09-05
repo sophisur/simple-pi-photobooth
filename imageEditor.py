@@ -10,9 +10,8 @@ class ImageEditor:
         self.top_medium = pilImage.open('mask_images/Ornements-07.png')
         self.bottom_medium = pilImage.open('mask_images/Ornements-08.png')
 
-        self.top_large = self.resize(self.top_large)
-        self.bottom_large = self.resize(self.bottom_large)
-
+        self.top_large = self.resize(self.top_large, 3)
+        self.bottom_large = self.resize(self.bottom_large, 3)
 
         today = datetime.today().strftime('%Y_%m_%d')
 
@@ -20,9 +19,12 @@ class ImageEditor:
         self.fine_path = self.make_path('fine_pictures', today)
         self.small_path = self.make_path('small_pictures', today)
 
-    def resize(self, image):
+        self.top_width, self.top_h = self.top_large.size
+        self.bottom_width, self.bottom_h = self.bottom_large.size
+
+    def resize(self, image, ratio):
         w, h = image.size
-        return image.resize((w*3, h*3))
+        return image.resize((int(w*ratio), int(h*ratio)))
 
     def make_path(self, folder_name, today):
         path_maked = os.path.join(folder_name, today)
@@ -35,20 +37,22 @@ class ImageEditor:
         self.save(image, self.raw_path, now)
         copy = image.rotate(180)
 
-        or_width, or_height = copy.size
-        top_width, top_h = self.top_large.size
-        bottom_width, bottom_h = self.bottom_large.size
-        width = or_width + top_h*2
-        height = or_height + top_h + bottom_h
+        width, height = copy.size
+
+        return self.apply_mask(copy, width, height, now)
+
+    def apply_mask(self, image, width, height, now):
+        width = width + self.top_h
+        height = height + self.top_h + self.bottom_h
 
         super_image = pilImage.new('RGB', (width, height), color='white')
-        super_image.paste(copy, (top_h, top_h))
+        super_image.paste(image, (int(self.top_h / 2), self.top_h))
 
-        banner_w = int(width / 2 - top_width / 2)
+        banner_w = int(width / 2 - self.top_width / 2)
         super_image.paste(self.top_large, (banner_w, 0), mask=self.top_large)
 
-        banner_w = int(width / 2 - bottom_width / 2)
-        super_image.paste(self.bottom_large, (banner_w, height - bottom_h), mask=self.bottom_large)
+        banner_w = int(width / 2 - self.bottom_width / 2)
+        super_image.paste(self.bottom_large, (banner_w, height - self.bottom_h), mask=self.bottom_large)
 
         self.save(super_image, self.fine_path, now)
         super_image.thumbnail((640, 480))
@@ -64,28 +68,24 @@ class ImageEditor:
     def apply_4_pictures_mask(self, images):
         now = datetime.now().strftime('%H_%M_%S_%f')
         print(len(images))
-        or_width, or_height = images[0].size
-        width = int(or_width * 2.2)
-        height = int(or_height * 2.2)
-        margin_w = int((or_width * 0.2)/3)
-        margin_h = int((or_height * 0.2)/3)
+        image = self.resize(images[0], 0.5)
+        or_width, or_height = image.size
+        or_width = int(or_width)
+        or_height = int(or_height)
 
-        tuples = [
-            (margin_w, margin_h),
-            (int(width/2)+margin_w, margin_h),
-            (margin_w, int(height/2)+margin_h),
-            (int(width/2)+margin_w, int(height/2+margin_h))
-        ]
+        margin = 50
+        width = or_width * 4
+        tot_width = width + margin * 3
+        height = or_height
 
-        super_image = pilImage.new('RGB', (width, height))
+        super_image = pilImage.new('RGB', (tot_width, height), color='white')
 
+        w = 0
         for i in range(0, 4):
             image = images[i]
             self.save(image, self.raw_path, now + '_' + str(i))
-            copy = image.rotate(180)
-            super_image.paste(copy, tuples[i])
+            copy = self.resize(image.rotate(180), 0.6)
+            super_image.paste(copy, (w, 0))
+            w = w + or_width + margin
 
-        super_image.paste(self.top_large, (0, 0), mask=self.top_large)
-        self.save(super_image, self.fine_path, now)
-        super_image.thumbnail((640, 480))
-        return self.save(super_image, self.small_path, now)
+        return self.apply_mask(super_image, tot_width, height, now)
