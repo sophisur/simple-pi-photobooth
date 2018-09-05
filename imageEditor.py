@@ -84,7 +84,7 @@ class ImageEditor:
         for i in range(0, 4):
             image = images[i]
             self.save(image, self.raw_path, now + '_' + str(i))
-            copy = self.resize(image.rotate(180), 0.6)
+            copy = self.resize(image.rotate(180), 0.5)
             super_image.paste(copy, (w, 0))
             w = w + or_width + margin
 
