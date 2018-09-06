@@ -10,9 +10,6 @@ class ImageEditor:
         self.top_medium = pilImage.open('mask_images/Ornements-07.png')
         self.bottom_medium = pilImage.open('mask_images/Ornements-08.png')
 
-        self.top_large = self.resize(self.top_large, 3)
-        self.bottom_large = self.resize(self.bottom_large, 3)
-
         today = datetime.today().strftime('%Y_%m_%d')
 
         self.raw_path = self.make_path('raw_pictures', today)
@@ -42,11 +39,11 @@ class ImageEditor:
         return self.apply_mask(copy, width, height, now)
 
     def apply_mask(self, image, width, height, now):
-        width = width + self.top_h
+        width = width + self.top_h * 2
         height = height + self.top_h + self.bottom_h
 
         super_image = pilImage.new('RGB', (width, height), color='white')
-        super_image.paste(image, (int(self.top_h / 2), self.top_h))
+        super_image.paste(image, (self.top_h, self.top_h))
 
         banner_w = int(width / 2 - self.top_width / 2)
         super_image.paste(self.top_large, (banner_w, 0), mask=self.top_large)
