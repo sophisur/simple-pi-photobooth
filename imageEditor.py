@@ -10,14 +10,26 @@ class ImageEditor:
         self.top_medium = pilImage.open('mask_images/Ornements-07.png')
         self.bottom_medium = pilImage.open('mask_images/Ornements-08.png')
 
+        self.top_right = pilImage.open('mask_images/Ornements-02.png')
+        self.bottom_left = pilImage.open('mask_images/Ornements-03.png')
+
+        self.left = pilImage.open('mask_images/Ornements-12.png')
+        self.right = pilImage.open('mask_images/Ornements-13.png')
+
         today = datetime.today().strftime('%Y_%m_%d')
 
         self.raw_path = self.make_path('raw_pictures', today)
         self.fine_path = self.make_path('fine_pictures', today)
         self.small_path = self.make_path('small_pictures', today)
 
-        self.top_width, self.top_h = self.top_large.size
-        self.bottom_width, self.bottom_h = self.bottom_large.size
+        self.top_w, self.top_h = self.top_large.size
+        self.bottom_w, self.bottom_h = self.bottom_large.size
+
+        self.top_right_w, self.top_right_h = self.top_right.size
+        self.bottom_left_w, self.bottom_left_h = self.bottom_left.size
+
+        self.right_w, self.right_h = self.right.size
+        self.left_w, self.left_h = self.left.size
 
     def resize(self, image, ratio):
         w, h = image.size
@@ -36,20 +48,27 @@ class ImageEditor:
 
         width, height = copy.size
 
-        return self.apply_mask(copy, width, height, now)
+        return self.apply_mask(copy, width, height, now, True)
 
-    def apply_mask(self, image, width, height, now):
+    def apply_mask(self, image, width, height, now, one):
         width = width + self.top_h * 2
         height = height + self.top_h + self.bottom_h
 
         super_image = pilImage.new('RGB', (width, height), color='white')
         super_image.paste(image, (self.top_h, self.top_h))
 
-        banner_w = int(width / 2 - self.top_width / 2)
+        banner_w = int(width / 2 - self.top_w / 2)
         super_image.paste(self.top_large, (banner_w, 0), mask=self.top_large)
 
-        banner_w = int(width / 2 - self.bottom_width / 2)
+        banner_w = int(width / 2 - self.bottom_w / 2)
         super_image.paste(self.bottom_large, (banner_w, height - self.bottom_h), mask=self.bottom_large)
+
+        if one:
+            super_image.paste(self.left, (0, height - self.left_h - self.bottom_h), mask=self.left)
+            super_image.paste(self.right, (width - self.right_w, 0 + self.bottom_h), mask=self.right)
+        else:
+            super_image.paste(self.bottom_left, (-20, height - self.bottom_left_h), mask=self.bottom_left)
+            super_image.paste(self.top_right, (width - self.top_right_w, -20), mask=self.top_right)
 
         self.save(super_image, self.fine_path, now)
         super_image.thumbnail((640, 480))
@@ -85,4 +104,4 @@ class ImageEditor:
             super_image.paste(copy, (w, 0))
             w = w + or_width + margin
 
-        return self.apply_mask(super_image, tot_width, height, now)
+        return self.apply_mask(super_image, tot_width, height, now, False)
