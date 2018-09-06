@@ -13,7 +13,7 @@ from imageEditor import ImageEditor
 from imageButton import ImageButton
 from popupProgress import PopupProgress, PopupProgressFour
 
-faking_it = True
+faking_it = False
 if not faking_it:
     from photoTaker import PhotoTaker
     photo = PhotoTaker()
